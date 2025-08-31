@@ -8,6 +8,9 @@ import { Layout } from "./components/Layout";
 import Dashboard from "./pages/Dashboard";
 import Auth from "./pages/Auth";
 import NotFound from "./pages/NotFound";
+import Analytics from "./pages/Analytics";
+import AddTransaction from "./pages/AddTransaction";
+import Budget from "./pages/Budget";
 
 const queryClient = new QueryClient();
 
@@ -26,10 +29,7 @@ const App = () => (
           } />
           <Route path="/add" element={
             <Layout>
-              <div className="text-center py-20">
-                <h1 className="text-2xl font-bold mb-4">Add Transaction</h1>
-                <p className="text-muted-foreground">Coming soon - Connect to Supabase first!</p>
-              </div>
+              <AddTransaction />
             </Layout>
           } />
           <Route path="/transactions" element={
@@ -42,18 +42,12 @@ const App = () => (
           } />
           <Route path="/analytics" element={
             <Layout>
-              <div className="text-center py-20">
-                <h1 className="text-2xl font-bold mb-4">Analytics</h1>
-                <p className="text-muted-foreground">Coming soon - Connect to Supabase first!</p>
-              </div>
+              <Analytics />
             </Layout>
           } />
           <Route path="/budget" element={
             <Layout>
-              <div className="text-center py-20">
-                <h1 className="text-2xl font-bold mb-4">Budget Management</h1>
-                <p className="text-muted-foreground">Coming soon - Connect to Supabase first!</p>
-              </div>
+              <Budget />
             </Layout>
           } />
           <Route path="/reports" element={
