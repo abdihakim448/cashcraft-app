@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabaseClient";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
 
 interface Transaction {
   id: number;
@@ -19,11 +18,12 @@ export default function TransactionsTab() {
   const fetchTransactions = async () => {
     setLoading(true);
     const { data, error } = await supabase
-      .from("transactions")-
+      .from("transactions")
       .select("*")
       .order("date", { ascending: false });
 
-    if (!error && data) setTransactions(data as Transaction[]);
+    if (error) console.error("Supabase error:", error);
+    else setTransactions(data as Transaction[]);
     setLoading(false);
   };
 

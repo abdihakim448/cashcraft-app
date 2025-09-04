@@ -1,4 +1,3 @@
-
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -11,6 +10,9 @@ import NotFound from "./pages/NotFound";
 import Analytics from "./pages/Analytics";
 import AddTransaction from "./pages/AddTransaction";
 import Budget from "./pages/Budget";
+import Transactions from "./pages/Transactions";   // ✅ import
+import Reports from "./pages/Reports";             // ✅ import
+import Settings from "./pages/Settings";           // ✅ import
 
 const queryClient = new QueryClient();
 
@@ -22,50 +24,49 @@ const App = () => (
       <BrowserRouter>
         <Routes>
           <Route path="/auth" element={<Auth />} />
+          
           <Route path="/" element={
             <Layout>
               <Dashboard />
             </Layout>
           } />
+
           <Route path="/add" element={
             <Layout>
               <AddTransaction />
             </Layout>
           } />
+
           <Route path="/transactions" element={
             <Layout>
-              <div className="text-center py-20">
-                <h1 className="text-2xl font-bold mb-4">All Transactions</h1>
-                <p className="text-muted-foreground">Coming soon - Connect to Supabase first!</p>
-              </div>
+              <Transactions />   {/* ✅ use real page */}
             </Layout>
           } />
+
           <Route path="/analytics" element={
             <Layout>
               <Analytics />
             </Layout>
           } />
+
           <Route path="/budget" element={
             <Layout>
               <Budget />
             </Layout>
           } />
+
           <Route path="/reports" element={
             <Layout>
-              <div className="text-center py-20">
-                <h1 className="text-2xl font-bold mb-4">Reports</h1>
-                <p className="text-muted-foreground">Coming soon - Connect to Supabase first!</p>
-              </div>
+              <Reports />   {/* ✅ use real page */}
             </Layout>
           } />
+
           <Route path="/settings" element={
             <Layout>
-              <div className="text-center py-20">
-                <h1 className="text-2xl font-bold mb-4">Settings</h1>
-                <p className="text-muted-foreground">Coming soon - Connect to Supabase first!</p>
-              </div>
+              <Settings />   {/* ✅ use real page */}
             </Layout>
           } />
+
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
