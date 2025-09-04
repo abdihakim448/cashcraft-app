@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabaseClient";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
 
 interface Transaction {
   id: number;
@@ -12,7 +11,7 @@ interface Transaction {
   date: string;
 }
 
-export default function TransactionsTab() {
+export default function Transactions() {
   const [transactions, setTransactions] = useState<Transaction[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -47,7 +46,7 @@ export default function TransactionsTab() {
                 <span>{tx.category}</span>
                 <span
                   className={`font-bold ${
-                    tx.type === "income" ? "text-success" : "text-destructive"
+                    tx.type === "income" ? "text-green-600" : "text-red-600"
                   }`}
                 >
                   {tx.type === "income" ? "+" : "-"}${tx.amount}
@@ -56,7 +55,9 @@ export default function TransactionsTab() {
             </CardHeader>
             <CardContent className="flex justify-between">
               <div>
-                {tx.description && <p className="text-sm text-muted-foreground">{tx.description}</p>}
+                {tx.description && (
+                  <p className="text-sm text-muted-foreground">{tx.description}</p>
+                )}
               </div>
               <div className="text-sm text-muted-foreground">{tx.date}</div>
             </CardContent>

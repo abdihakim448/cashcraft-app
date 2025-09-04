@@ -1,19 +1,33 @@
 import { useState } from "react";
+import { supabase } from "@/lib/supabaseClient";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
 
-export default function SettingsTab() {
+export default function Settings() {
   const { toast } = useToast();
   const [username, setUsername] = useState("");
 
-  const handleSave = () => {
-    toast({
-      title: "Settings saved",
-      description: "Your settings have been updated.",
+  const handleSave = async () => {
+    const { error } = await supabase.from("profiles").upsert({
+      id: (await supabase.auth.getUser()).data.user?.id, // current logged in user
+      username,
     });
+
+    if (error) {
+      toast({
+        title: "Error",
+        description: error.message,
+        variant: "destructive",
+      });
+    } else {
+      toast({
+        title: "Settings saved",
+        description: "Your username has been updated.",
+      });
+    }
   };
 
   return (

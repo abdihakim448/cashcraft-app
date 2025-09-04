@@ -2,66 +2,59 @@ import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabaseClient";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
-interface Transaction {
-  id: number;
-  amount: number;
-  type: "income" | "expense";
-  category: string;
-  description: string;
-  date: string;
-}
-
-export default function TransactionsTab() {
-  const [transactions, setTransactions] = useState<Transaction[]>([]);
+export default function Reports() {
+  const [income, setIncome] = useState(0);
+  const [expense, setExpense] = useState(0);
   const [loading, setLoading] = useState(true);
 
-  const fetchTransactions = async () => {
+  const fetchReport = async () => {
     setLoading(true);
-    const { data, error } = await supabase
-      .from("transactions")
-      .select("*")
-      .order("date", { ascending: false });
 
-    if (error) console.error("Supabase error:", error);
-    else setTransactions(data as Transaction[]);
+    const { data, error } = await supabase.from("transactions").select("amount, type");
+
+    if (!error && data) {
+      let inc = 0;
+      let exp = 0;
+      data.forEach((t) => {
+        if (t.type === "income") inc += t.amount;
+        else exp += t.amount;
+      });
+      setIncome(inc);
+      setExpense(exp);
+    }
+
     setLoading(false);
   };
 
   useEffect(() => {
-    fetchTransactions();
+    fetchReport();
   }, []);
 
   return (
-    <div className="max-w-4xl mx-auto space-y-4">
-      <h1 className="text-2xl font-bold">All Transactions</h1>
+    <div className="max-w-4xl mx-auto space-y-6">
+      <h1 className="text-2xl font-bold">Reports</h1>
 
       {loading ? (
         <p>Loading...</p>
-      ) : transactions.length === 0 ? (
-        <p>No transactions found.</p>
       ) : (
-        transactions.map((tx) => (
-          <Card key={tx.id}>
+        <div className="grid grid-cols-2 gap-4">
+          <Card>
             <CardHeader>
-              <CardTitle className="flex justify-between items-center">
-                <span>{tx.category}</span>
-                <span
-                  className={`font-bold ${
-                    tx.type === "income" ? "text-success" : "text-destructive"
-                  }`}
-                >
-                  {tx.type === "income" ? "+" : "-"}${tx.amount}
-                </span>
-              </CardTitle>
+              <CardTitle>Total Income</CardTitle>
             </CardHeader>
-            <CardContent className="flex justify-between">
-              <div>
-                {tx.description && <p className="text-sm text-muted-foreground">{tx.description}</p>}
-              </div>
-              <div className="text-sm text-muted-foreground">{tx.date}</div>
+            <CardContent>
+              <p className="text-green-600 font-bold text-xl">${income}</p>
             </CardContent>
           </Card>
-        ))
+          <Card>
+            <CardHeader>
+              <CardTitle>Total Expenses</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <p className="text-red-600 font-bold text-xl">${expense}</p>
+            </CardContent>
+          </Card>
+        </div>
       )}
     </div>
   );
