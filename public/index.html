@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Expense Tracker</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <!-- Sidebar Navigation -->
+  <nav>
+    <h1>Expense Tracker</h1>
+    <button class="tab-button active" data-target="dashboardSection">Dashboard</button>
+    <button class="tab-button" data-target="expensesSection">Expenses</button>
+    <button class="tab-button" data-target="projectsSection">Projects</button>
+    <button class="tab-button" data-target="reportsSection">Reports</button>
+    <button onclick="window.location.href='login.html'">Logout</button>
+  </nav>
+
+  <!-- Main Content -->
+  <main>
+    <!-- Dashboard -->
+    <section id="dashboardSection" class="tab-content active">
+      <h2>Dashboard</h2>
+      <div id="chartContainer">
+        <canvas id="expensesChart"></canvas>
+        <div id="totalDisplay"></div>
+      </div>
+    </section>
+
+    <!-- Expenses -->
+    <section id="expensesSection" class="tab-content">
+      <h2>Expenses</h2>
+      <form id="addExpenseForm">
+        <select id="expenseProject" required></select>
+        <input type="text" id="expenseCategory" placeholder="Category" required />
+        <input type="text" id="expenseDescription" placeholder="Description" />
+        <input type="number" id="expenseAmount" placeholder="Amount" required />
+        <input type="date" id="expenseDate" required />
+        <button type="submit">Add Expense</button>
+      </form>
+
+      <table id="expensesTable">
+        <thead>
+          <tr>
+            <th>Project</th><th>Category</th><th>Description</th><th>Amount</th><th>Date</th><th>Action</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </section>
+
+    <!-- Projects -->
+    <section id="projectsSection" class="tab-content">
+      <h2>Projects</h2>
+      <form id="addProjectForm">
+        <input type="text" id="projectName" placeholder="Project Name" required />
+        <button type="submit">Add Project</button>
+      </form>
+
+      <table id="projectsTable">
+        <thead>
+          <tr><th>Name</th><th>Action</th></tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </section>
+
+    <!-- Reports -->
+    <section id="reportsSection" class="tab-content">
+      <h2>Reports</h2>
+      <form id="reportFilterForm">
+        <select id="reportProject">
+          <option value="">All Projects</option>
+        </select>
+        <input type="date" id="reportStartDate" />
+        <input type="date" id="reportEndDate" />
+        <button type="submit">Filter</button>
+      </form>
+
+      <div id="reportSummary">
+        <p id="reportTotal"></p>
+        <canvas id="reportChart"></canvas>
+      </div>
+    </section>
+  </main>
+
+  <!-- Scripts -->
+  <script src="js/tabs.js"></script>
+  <script src="js/dashboard.js"></script>
+  <script src="js/expenses.js"></script>
+  <script src="js/project.js"></script>
+  <script src="js/reports.js"></script>
+</body>
+</html>
